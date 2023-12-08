@@ -3,7 +3,7 @@ module MatisseCytometry
 
 export color_figure
 #export color_figure
-
+using ColorSchemes
 using StatsBase # package with basic math such as means
 using Images # image processing
 using CSV # for readng the panel file
