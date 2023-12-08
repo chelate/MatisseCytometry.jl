@@ -5,7 +5,7 @@ export color_figure
 #export color_figure
 
 using StatsBase # package with basic math such as means
-using Colors # image processing
+using Images # image processing
 using CSV # for readng the panel file
 using Luxor # for drawing the masks and legens in vector graphics
 

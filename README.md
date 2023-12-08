@@ -63,7 +63,7 @@ seurat = [ # name a color scheme for your records or to reuse
 ```
 
 ```julia
-for file in readdir(joinpath(DATA_PATH,"img"))
+for file in readdir(joinpath(MatisseCytometry.IMG_PATH()))
     color_figure(file,
         # assumes that the image is in the "img" folder
         # color => channel list
@@ -94,7 +94,7 @@ MainDirectory
         |   contains .tiff numbered masks which result from segmentation
 ```
 
-! If "data" is called something different, you can use MatisseCytometry.set_data_directory(path) to set the name to something other than data.
+Note: If "data" is called something different, you can use MatisseCytometry.set_data_directory(path) to set the name to something other than data.
 
 this file structure is typically the result of running the steinbock preprocess step
 ```
@@ -105,4 +105,15 @@ steinbock preprocess imc images --hpf 50
 
 ```
 
-This data directory *must* contain a steinbock-formatted file where the rows match the channels in the img tiffs, and 
+This data directory *must* contain a steinbock-formatted file where the rows match the channels in the img tiffs.
+
+If you don't have such a directory, you can play with the project by downloading the example steinbock test images
+
+```julia
+MatisseCytometry.set_project("path/for/you/test")
+MatisseCytometry.download_steinbock_example()
+```
+
+
+
+```
