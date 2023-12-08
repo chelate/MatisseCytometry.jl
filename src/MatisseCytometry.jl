@@ -2,18 +2,24 @@ module MatisseCytometry
 
 #export color_figure
 
-import Pkg
 using StatsBase # package with basic math such as means
 using Images # image processing
 using CSV # for readng the panel file
 using Luxor # for drawing the masks and legens in vector graphics
 
 
-home = Pkg.project().path # hopefully this will be set to the environment path
-DATA_PATH = joinpath(home, "data") # set directories
-FIG_PATH = joinpath(home, "color_figures") # set directories
-if !isdir(FIG_PATH)
-    mkpath(FIG_PATH)
+home = @__DIR__ # this will be set to the environment path
+function set_project(path)
+    global home = path
+end
+
+DATA_PATH() = joinpath(home, "data") # set directories
+function FIG_PATH()
+    fig_path = joinpath(home, "color_figures") # set directories
+    if !isdir(fig_path)
+        mkpath(fig_path)
+    end
+    return fig_path
 end
 
 
@@ -57,7 +63,7 @@ end
 
 function color_figure(img_path, pairs...; mask_dir="", 
     window = nothing, name = "untitled_$(rand(0:9,4)...)_",
-    figpath = FIG_PATH, datpath = DATA_PATH, colorscale = 0.7)
+    figpath = FIG_PATH(), datpath = DATA_PATH(), colorscale = 0.7)
     
     total_img_path = joinpath(datpath,"img",img_path)
     img_fname = basename(total_img_path)
@@ -284,7 +290,7 @@ function find_row_index(csv_file::AbstractString, search_string::AbstractString)
     error("No matching target for $(search_string) found")
 end
 
-function get_channel_list(list_of_targets; panel = joinpath(DATA_PATH,"panel.csv"))
+function get_channel_list(list_of_targets; panel = joinpath(DATA_PATH(),"panel.csv"))
     out = Vector{Int}()
     for target in list_of_targets
         ii = find_row_index(panel, target)
