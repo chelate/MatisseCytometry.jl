@@ -17,12 +17,14 @@ Before anything, download *juliaup*, the julia installer: "https://github.com/Ju
 and make sure you can run julia before trying anything. A start menu shortcut should appear in windows. Juliaup will download Julia and get your path variables and directories right.
 
 ### Installation 
-Open julia and add this package, running in the REPL (the julia terminal)
+Open julia and add this package, running in the REPL (the julia terminal), you will probably also need to Colors.jl to define your color scheme
    
 ```julia
 using Pkg
 Pkg.add(url="https://github.com/chelate/MatisseCytometry.jl")
+Pkg.add("Colors")
 using MatisseCytometry
+using Colors
 ```
 
 then tell the package which project directory you wish to use
