@@ -6,7 +6,7 @@ MatisseCytometry.jl is meant to mass-generate publication-ready images for mass 
 
  > Colour is my day-long obsession, joy and torment. - Monet
 
-The human eye has only three "channels", so using more than three colors is "irrational". Nonetheless, artistically minded colleagues have suggested even the six colors offered by MCDViewer are "not enough". With MatisseCytometry, you can use as many colors as you like, going  beyond what is ``rational", or even what is in ``good taste". In fact, it is easy to go beyond the bounds of sanity itself! With MatisseCytometry you can quickly produce publication quality images that strain the very fabric of the mind!!
+The human eye has only three "channels", so using more than three colors is "irrational". Nonetheless, artistically minded colleagues have suggested even the six colors offered by MCDViewer are "not enough". With MatisseCytometry, you can use as many colors as you like, going  beyond what is "rational", or even what is in "good taste". In fact, it is easy to go beyond the bounds of sanity itself! With MatisseCytometry you can quickly produce publication quality images that strain the very fabric of the mind!!
 
 > It is the eye of ignorance that assigns a fixed and unchangeable color to every object; beware of this stumbling block.” - Paul Gauguin
 
@@ -16,7 +16,8 @@ Before anything, download *juliaup*, the julia installer: "https://github.com/Ju
 
 and make sure you can run julia before trying anything. A start menu shortcut should appear in windows. Juliaup will download Julia and get your path variables and directories right.
 
-1. Open julia and add this package, running in the REPL (the julia terminal)
+### Installation 
+Open julia and add this package, running in the REPL (the julia terminal)
    
 ```julia
 using Pkg
@@ -28,11 +29,11 @@ then tell the package which project directory you wish to use
 
 ```julia
 MatisseCytometry.set_project("path/to/parentdirectoryofdata")
-``````
+```
 
-2. Usage
+### Usage
 
-example usage: name a color scheme
+example usaga single
 
 ```julia
 color_figure(patient_001.tiff,
