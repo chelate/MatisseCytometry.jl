@@ -1,19 +1,52 @@
 module MatisseCytometry
 
+
+export color_figure
 #export color_figure
 
 using StatsBase # package with basic math such as means
-using Images # image processing
+using Colors # image processing
 using CSV # for readng the panel file
 using Luxor # for drawing the masks and legens in vector graphics
 
 
 home = @__DIR__ # this will be set to the environment path
+
 function set_project(path)
-    global home = path
+    if !isdir(path)
+        print("This is not yet a directory. Do you want to create it? \n (yes/no): ")
+        user_response = readline()
+        if lowercase(user_response) == "yes"
+            # Create the file
+            mkpath(path)
+            global data_directory = "data"
+            mkpath(joinpath(path,data_directory))
+            println("Directory '$path' created.")
+            global home = path
+            println("The project root directory has been set to $(home)")
+        else
+            println("canceled.")
+        end
+    else
+        global home = path
+        println("The project root directory has been set to $(home)")
+    end
 end
 
-DATA_PATH() = joinpath(home, "data") # set directories
+data_directory = "data"
+img_directory = "img"
+DATA_PATH() = joinpath(home, data_directory) # set directories
+IMG_PATH() = joinpath(home, data_directory, img_directory) # set directories
+function set_data_directory(path)
+    global data = path
+    println("The data directory is now $(DATA_PATH())")
+end
+
+function set_img_directory(path)
+    global img_directory = path
+    println("The data directory is now $(DATA_PATH())")
+end
+
 function FIG_PATH()
     fig_path = joinpath(home, "color_figures") # set directories
     if !isdir(fig_path)
@@ -61,11 +94,11 @@ function quantile_scale_dict(array; reference_quantile = 0.95)
         for chan in axes(array,3))
 end
 
-function color_figure(img_path, pairs...; mask_dir="", 
+function color_figure(img_file, pairs...; mask_dir="", 
     window = nothing, name = "untitled_$(rand(0:9,4)...)_",
     figpath = FIG_PATH(), datpath = DATA_PATH(), colorscale = 0.7)
     
-    total_img_path = joinpath(datpath,"img",img_path)
+    total_img_path = joinpath(IMG_PATH(),img_file)
     img_fname = basename(total_img_path)
     patnum = split(split(img_fname,".")[end-1],"_")[end]
 
@@ -299,6 +332,6 @@ function get_channel_list(list_of_targets; panel = joinpath(DATA_PATH(),"panel.c
     return out
 end
 
-# Write your package code here.
+include("download_steinbock.jl")
 
 end
