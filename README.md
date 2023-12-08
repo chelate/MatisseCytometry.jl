@@ -14,35 +14,45 @@ The human eye has only three "channels", so using more than three colors is "irr
 
 Before anything, download *juliaup*, the julia installer: "https://github.com/JuliaLang/juliaup" 
 
-and make sure you can run julia before trying anything. A start menu shortcut should appear in windows. Juliaup will download Julia and get your path variables and directories right.
+and make sure you can run julia. A start menu shortcut should appear in windows.
 
 ### Installation 
-Open julia and add this package, running in the REPL (the julia terminal), you will probably also need to Colors.jl to define your color scheme
+Open julia and add this package. You will probably also need to Colors.jl to define your color scheme. You only need to do this once and it should take awhile.
+
+Running in the REPL (the julia terminal)
    
 ```julia
 using Pkg
 Pkg.add(url="https://github.com/chelate/MatisseCytometry.jl")
 Pkg.add("Colors")
-using MatisseCytometry
-using Colors
 ```
 
-then tell the package which project directory you wish to use
+then `using` the package and tell the package which project directory you wish to make your crazy images in.
 
 ```julia
+using MatisseCytometry
+using Colors
 MatisseCytometry.set_project("path/to/parentdirectoryofdata")
 ```
 
-### Usage
+If you get confused about where you are, run
+```
+MatisseCytometry.home
+```
+to see what the parent directory is.
 
-example using a single image
+
+### Usage
+The main function is color figure.
+
+
+Example using a single image
 
 ```julia
-color_figure(patient_001.tiff,
+color_figure("patient_001.tiff",
     # define you color scheme color => [list of targets]
     HSV(0,1,1) => ["CD3"],
     HSV(60,1,1) => ["CD20"],
-    HSV(330,1,1) => ["CD21"],
     HSV(180,1,1) => ["Ir-193"],
         colorscale = 0.9, # overall saturation scale
         # if you want to draw masks, give the directory name of the mask folder
@@ -59,10 +69,12 @@ heres a slight more exciting example
 seurat = [ # name a color scheme for your records or to reuse
     HSV(0,1,1) => ["CD3"],
     HSV(60,1,1) => ["CD20"],
-    HSV(330,1,1) => ["CD21"],
-    HSV(180,1,1) => ["Ir-193"]]
-
+    HSV(90,1,1) => ["CD7"]
+    HSV(120,1,1) => ["CD45RA"]
+    HSV(180,1,1) => ["DNA1", "DNA2"]]
 ```
+
+Walk all the files in img using:
 
 ```julia
 for file in readdir(joinpath(MatisseCytometry.IMG_PATH()))
@@ -72,7 +84,7 @@ for file in readdir(joinpath(MatisseCytometry.IMG_PATH()))
         seurat...,
         colorscale = 0.9, # overall saturation scale
         # if you want to draw masks, give the directory name of the mask folder
-        mask_dir = "masks",
+        mask_dir = "masks_deepcell",
         # assumes that the mask file shares the same name
         name = "seurat", # appends the patient number to the name
         window = (300:600,300:600) # zoom in on a subregion
@@ -81,9 +93,10 @@ end
 ```
 
 
-Notes This project_directory is assumed to have the special structure of a Steinbock project: 
+# Directory Structure
+This project_directory is assumed to have the special structure of a `steinbock` project: 
 
-If you don't have access to the steinbock command tool you will need to generate the cannonical (assumed) directory structure yourself this will look like
+If you don't have access to the `steinbock` command tool you will need to generate the cannonical (assumed) directory structure yourself this will look like
 
 ```
 MainDirectory
@@ -95,6 +108,10 @@ MainDirectory
         |-some_masks if you wish to plot masks, this directory 
         |   contains .tiff numbered masks which result from segmentation
 ```
+
+
+Check you are in the main directory by running
+
 
 Note: If "data" is called something different, you can use MatisseCytometry.set_data_directory(path) to set the name to something other than data.
 
@@ -109,7 +126,7 @@ steinbock preprocess imc images --hpf 50
 
 This data directory *must* contain a steinbock-formatted file where the rows match the channels in the img tiffs.
 
-If you don't have such a directory, you can play with the project by downloading the example steinbock test images
+If you don't have such a directory, you can play with the project by downloading the example steinbock test images after loading the project
 
 ```julia
 MatisseCytometry.set_project("path/for/you/test")
