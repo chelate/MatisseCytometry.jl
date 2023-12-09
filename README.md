@@ -19,7 +19,7 @@ and make sure you can run julia. A start menu shortcut should appear in windows.
 ### Installation 
 Open julia and add this package. You will probably also need to Colors.jl to define your color scheme. You only need to do this once and it should take awhile.
 
-Running in the REPL (the julia terminal)
+To add this package, you need to run the following commands in the REPL (the julia terminal)
    
 ```julia
 using Pkg
@@ -43,8 +43,19 @@ to see what the parent directory is.
 
 
 ### Usage
-The main function is color figure.
+The main function is `color_figure` which has the arguments
 
+``` colorfigure(base_filename, color_scheme...; optional_argments)```
+
+`base_filename` is the multichannel tiff to build off of
+
+`color_scheme` is a set of arguments specifying how different proteins should be colored, each entry looks like
+
+`Color => ["target1","target2"]`
+
+Usually there is no point is choosing colors with a low value (darkness), and we are most often interested in maximally saturated colors for maximum contrast between targets. Thus, the `HSV()` color specification is is particularly useful, where we set the saturation and value parameters to 1 and only change the hue "angle" on the color wheel, which runs from 0-360. To choose "whiter" colors one can set the saturation value closer to zero.
+
+There are lots of ColorSchemes available in the julia package [ColorSchemes](https://juliagraphics.github.io/ColorSchemes.jl/stable/catalogue/#MetBrewer).
 
 Example using a single image
 
@@ -110,12 +121,9 @@ MainDirectory
 ```
 
 
-Check you are in the main directory by running
+Check what MatCyto thinks the main directory by running `MatisseCytometry.main`.
 
-
-Note: If "data" is called something different, you can use MatisseCytometry.set_data_directory(path) to set the name to something other than data.
-
-this file structure is typically the result of running the steinbock preprocess step
+This file structure is typically the result of running the steinbock preprocess step
 ```
 alias steinbock="docker run -v path/to/data:/data -u $(id -u):$(id -g) ghcr.io/bodenmillergroup/steinbock:0.15.0"
 
@@ -124,14 +132,18 @@ steinbock preprocess imc images --hpf 50
 
 ```
 
-This data directory *must* contain a steinbock-formatted file where the rows match the channels in the img tiffs.
+This data directory *must* contain a steinbock-formatted file where the rows match the channels in the img tiffs. If "data" is called something different, you can use `MatisseCytometry.set_data_directory(datapath)` to set the name to something other than data. In the 2023 workshop it would actually be set to `joinpath(data,steinbock)`.
 
-If you don't have such a directory, you can play with the project by downloading the example steinbock test images after loading the project
+
+If you don't have such a directory, you can play with the project by downloading the example steinbock test images after loading the project in a directory of your choice (say Documents)
 
 ```julia
-MatisseCytometry.set_project("path/for/you/test")
+MatisseCytometry.set_project("path/for/your/Documents/test")
 MatisseCytometry.download_steinbock_example()
 ```
+
+Careful with this function, since if you have something in a folder called "test", there is a chance download will overwrite it.
+
 
 
 
