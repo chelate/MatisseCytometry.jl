@@ -1,7 +1,7 @@
 module MatisseCytometry
 
 
-export color_figure
+export color_figure, set_project, get_target_list
 #export color_figure
 using ColorSchemes
 using StatsBase # package with basic math such as means
@@ -44,7 +44,7 @@ end
 
 function set_img_directory(path)
     global img_directory = path
-    println("The data directory is now $(DATA_PATH())")
+    println("The image directory is now $(IMG_PATH())")
 end
 
 function FIG_PATH()
@@ -173,7 +173,9 @@ end
 
 
 function draw_legends(pairs...)
-    loremipsum = [jj for (_,jj) in pairs]
+    vec_wrap(x::Vector) = x
+    vec_wrap(x::AbstractString) = [x]
+    loremipsum = [vec_wrap(jj) for (_,jj) in pairs]
     colors = [ii for (ii,_) in pairs]
     fontface("Helvetica")
     fontsize(20)
@@ -323,6 +325,14 @@ function find_row_index(csv_file::AbstractString, search_string::AbstractString)
     error("No matching target for $(search_string) found")
 end
 
+function get_target_list(; panel = joinpath(DATA_PATH(),"panel.csv"))
+    # Read the CSV file
+    data = CSV.File(panel)
+
+    # Iterate through rows and find the index
+    [row.name for row in data if !isempty(row.name)]
+end
+
 function get_channel_list(list_of_targets; panel = joinpath(DATA_PATH(),"panel.csv"))
     out = Vector{Int}()
     for target in list_of_targets
@@ -330,6 +340,10 @@ function get_channel_list(list_of_targets; panel = joinpath(DATA_PATH(),"panel.c
         push!(out,ii)
     end
     return out
+end
+
+function get_channel_list(target::AbstractString; panel = joinpath(DATA_PATH(),"panel.csv"))
+    return get_channel_list([target]; panel)
 end
 
 include("download_steinbock.jl")
