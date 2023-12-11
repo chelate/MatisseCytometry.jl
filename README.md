@@ -36,11 +36,11 @@ set_project("path/to/parentdirectoryofdata") # change to a data path
 # test it out in a spare copy of your data in case anything goes wrong.
 ```
 
-If you get confused about where your project directory is, run
+If you get confused about where your project path is, run
 ```
-MatisseCytometry.home
+MatisseCytometry.project_path
 ```
-to see what the parent directory is.
+to see what folder you are currently using for your project.
 
 
 ### Usage

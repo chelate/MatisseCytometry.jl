@@ -22,14 +22,14 @@ ispdf(t) = split(t, ".")[end] == "pdf"
 for t in readdir(MatisseCytometry.IMG_PATH())
     if split(t, ".")[end] == "tiff"
         println("making $(t) without masks")
-        color_figure(t, random_colorscheme(;ncols = 10)...; colorscale = 0.2)
+        color_figure(t, random_colorscheme(;ncols = 10)...; colorscale = 0.3)
     end
 end
 
 for t in readdir(MatisseCytometry.IMG_PATH())
     if istiff(t)
         println("making $(t) with masks")
-        color_figure(t, random_colorscheme(;ncols = 10)...; mask_dir = "masks_deepcell", colorscale = 0.1)
+        color_figure(t, random_colorscheme(;ncols = 10)...; mask_dir = "masks_deepcell", colorscale = 0.2)
     end
 end
 

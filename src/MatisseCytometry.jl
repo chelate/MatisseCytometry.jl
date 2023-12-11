@@ -10,7 +10,7 @@ using CSV # for readng the panel file
 using Luxor # for drawing the masks and legens in vector graphics
 
 
-home = @__DIR__ # this will be set to the environment path
+project_path = @__DIR__ # this will be set to the environment path
 
 function set_project(path::AbstractString)
     if !isdir(path)
@@ -22,21 +22,21 @@ function set_project(path::AbstractString)
             global data_directory = "data"
             mkpath(joinpath(path,data_directory))
             println("Directory '$path' created.")
-            global home = path
-            println("The project root directory has been set to $(home)")
+            global project_path = path
+            println("The project root directory has been set to $(project_path)")
         else
             println("canceled.")
         end
     else
-        global home = path
-        println("The project root directory has been set to $(home)")
+        global project_path = path
+        println("The project root directory has been set to $(project_path)")
     end
 end
 
 data_directory = "data"
 img_directory = "img"
-DATA_PATH() = joinpath(home, data_directory) # set directories
-IMG_PATH() = joinpath(home, data_directory, img_directory) # set directories
+DATA_PATH() = joinpath(project_path, data_directory) # set directories
+IMG_PATH() = joinpath(project_path, data_directory, img_directory) # set directories
 function set_data_directory(path)
     global data = path
     println("The data directory is now $(DATA_PATH())")
@@ -48,7 +48,7 @@ function set_img_directory(path)
 end
 
 function FIG_PATH()
-    fig_path = joinpath(home, "color_figures") # set directories
+    fig_path = joinpath(project_path, "color_figures") # set directories
     if !isdir(fig_path)
         mkpath(fig_path)
     end
@@ -75,7 +75,8 @@ function color_means(data, pairs...; scale = 0.7)
         end
         # make sure there is no overflow
         m = max(out.r,out.g,out.b,1)
-        out = out * (1/m)
+        clipped = RGB(min(out.r,1), min(out.g,1), min(out.b,1))
+        out = out * (0.5/m) + clipped * (0.5) # half scaled, half clipped.
         generated_rgb_channels[i, j] = out
     end
     return generated_rgb_channels
