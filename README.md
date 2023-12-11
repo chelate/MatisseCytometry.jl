@@ -10,12 +10,17 @@ The human eye has only three "channels", so using more than three colors is "irr
 
 > It is the eye of ignorance that assigns a fixed and unchangeable color to every object” - Paul Gauguin
 
+
+### Example output
+
+Example image generated from a randomly generated color scheme with 10 random colors. Original data comes from the Bodenmiller [2023 Imaging Workshop](https://github.com/BodenmillerGroup/ImagingWorkshop2023).
+
 ![example from breast / colon cancer imc dataset](https://github.com/chelate/MatisseCytometry.jl/assets/42802644/16e677c1-ab62-41e7-9dbf-2114c24d7a82)
 
 
 ## Directions:
 
-Before anything, download *juliaup*, the julia installer: "https://github.com/JuliaLang/juliaup" 
+To use julia, download *juliaup*, the julia installer: "https://github.com/JuliaLang/juliaup" 
 
 and make sure you can run julia. A start menu shortcut should appear in windows.
 
