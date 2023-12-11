@@ -10,6 +10,9 @@ The human eye has only three "channels", so using more than three colors is "irr
 
 > It is the eye of ignorance that assigns a fixed and unchangeable color to every object” - Paul Gauguin
 
+![example from breast / colon cancer imc dataset](https://github.com/chelate/MatisseCytometry.jl/assets/42802644/16e677c1-ab62-41e7-9dbf-2114c24d7a82)
+
+
 ## Directions:
 
 Before anything, download *juliaup*, the julia installer: "https://github.com/JuliaLang/juliaup" 
