@@ -7,7 +7,7 @@ if isdir(joinpath(@__DIR__,"color_figures"))
     rm(joinpath(@__DIR__,"color_figures"),recursive = true)
 end
 
-MatisseCytometry.set_project(@__DIR__)
+set_project(@__DIR__)
 
 function random_colorscheme(;ncols = 10)
     targs = sample(get_target_list(),ncols; replace = false)
