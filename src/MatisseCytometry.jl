@@ -12,7 +12,7 @@ using Luxor # for drawing the masks and legens in vector graphics
 
 home = @__DIR__ # this will be set to the environment path
 
-function set_project(path)
+function set_project(path::AbstractString)
     if !isdir(path)
         print("This is not yet a directory. Do you want to create it? \n (yes/no): ")
         user_response = readline()

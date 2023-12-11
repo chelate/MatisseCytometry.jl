@@ -32,10 +32,11 @@ then `using` the package and tell the package which project directory you wish t
 ```julia
 using MatisseCytometry
 using Colors
-MatisseCytometry.set_project("path/to/parentdirectoryofdata")
+set_project("path/to/parentdirectoryofdata") # change to a data path
+# test it out in a spare copy of your data in case anything goes wrong.
 ```
 
-If you get confused about where you are, run
+If you get confused about where your project directory is, run
 ```
 MatisseCytometry.home
 ```
@@ -105,7 +106,7 @@ end
 
 
 # Directory Structure
-This project_directory is assumed to have the special structure of a `steinbock` project: 
+This project directory is assumed to have the special structure of a `steinbock` project: 
 
 If you don't have access to the `steinbock` command tool you will need to generate the cannonical (assumed) directory structure yourself this will look like
 
@@ -142,7 +143,7 @@ MatisseCytometry.set_project("path/for/your/Documents/test")
 MatisseCytometry.download_steinbock_example()
 ```
 
-Careful with this function, since if you have something in a folder called "test", there is a chance download will overwrite it.
+Careful with this function, since if you have something already in your project folder `path/for/your/Documents/test`, there is a chance download will overwrite it.
 
 
 
