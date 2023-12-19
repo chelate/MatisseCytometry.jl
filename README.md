@@ -62,7 +62,10 @@ The main function is `color_figure` which has the arguments
 
 `Color => ["target1","target2"]`
 
-Usually there is no point is choosing colors with a low value (darkness), and we are most often interested in maximally saturated colors for maximum contrast between targets. Thus, the `HSV()` color specification is is particularly useful, where we set the saturation and value parameters to 1 and only change the hue "angle" on the color wheel, which runs from 0-360. To choose "whiter" colors one can set the saturation value closer to zero.
+Usually there is no point is choosing colors with a low value (darkness), and we are most often interested in maximally saturated colors for maximum contrast between targets. Thus, the `HSV()` color specification is is particularly useful, where we set the saturation and value parameters to 1 and only change the hue "angle" on the color wheel, which runs from 0-360. To choose "whiter" colors one can set the saturation value closer to zero. Here's the HSV colorwheel.
+
+![colorwheel](https://github.com/chelate/MatisseCytometry.jl/assets/42802644/98214370-d6eb-464c-83ed-fc057e42df0b)
+
 
 There are lots of ColorSchemes available in the julia package [ColorSchemes](https://juliagraphics.github.io/ColorSchemes.jl/stable/catalogue/#MetBrewer).
 
