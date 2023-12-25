@@ -1,7 +1,7 @@
 module MatisseCytometry
 
 
-export color_figure, set_project, get_target_list
+export color_figure, set_project, get_target_list, sm_heatmap
 #export color_figure
 using ColorSchemes
 using StatsBase # package with basic math such as means
@@ -96,12 +96,17 @@ function quantile_scale_dict(array; reference_quantile = 0.95)
 end
 
 function color_figure(img_file, pairs...; mask_dir="", 
-    window = nothing, name = "untitled_$(rand(0:9,4)...)_",
+    window = nothing, name = "untitled_$(rand(0:9,4)...)",
     figpath = FIG_PATH(), datpath = DATA_PATH(), colorscale = 0.7)
+    # need to fix the name generation, not all patients get their own number.
     
     total_img_path = joinpath(IMG_PATH(),img_file)
     img_fname = basename(total_img_path)
-    patnum = split(split(img_fname,".")[end-1],"_")[end]
+    figdir = joinpath(figpath, join(split(img_fname,".")[1:end-1]...) )
+
+    if !isdir(figdir)
+        mkdir(figdir)
+    end
 
     img = color_image(total_img_path, pairs...; colorscale)
     s = size(img)
@@ -116,7 +121,7 @@ function color_figure(img_file, pairs...; mask_dir="",
 
     Drawing(length(window[2]),length(window[1])..., 
         # where we save the image
-        joinpath(figpath, name*mask_dir*"_"*patnum*".pdf"))
+        joinpath(figdir, name*ifelse(isempty(mask_dir),"","_")*mask_dir*".pdf"))
         # begin image
     gsave()
     Luxor.transform([0 1 1 0 0 0])
@@ -348,5 +353,6 @@ function get_channel_list(target::AbstractString; panel = joinpath(DATA_PATH(),"
 end
 
 include("download_steinbock.jl")
+#include("spillover_matrix.jl")
 
 end

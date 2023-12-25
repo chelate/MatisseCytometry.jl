@@ -35,7 +35,10 @@ end
 
 @testset "MatisseCytometry.jl" begin
     # Write your tests here.
+    nimages = length(filter(istiff, readdir(MatisseCytometry.IMG_PATH())))
     @test isdir(MatisseCytometry.FIG_PATH())
-    @test 2*length(filter(istiff, readdir(MatisseCytometry.IMG_PATH()))) ==
-         length(filter(ispdf,readdir(MatisseCytometry.FIG_PATH())))
+    # is there a directory for every image
+    @test nimages == length(filter(isdir,readdir(MatisseCytometry.FIG_PATH(); join = true)))
+    # do all the directories have 2 pdfs?
+    @test all(map( x -> length(filter(ispdf,readdir(x))) == 2, filter(isdir, readdir(MatisseCytometry.FIG_PATH(), join = true))))
 end
