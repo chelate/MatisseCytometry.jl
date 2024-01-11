@@ -3,6 +3,7 @@ using Test
 using StatsBase
 using Colors
 
+
 if isdir(joinpath(@__DIR__,"color_figures"))
     rm(joinpath(@__DIR__,"color_figures"),recursive = true)
 end
@@ -14,6 +15,8 @@ function random_colorscheme(;ncols = 10)
     colangle = sample(0:20:360,ncols; replace = false)
     [HSV(c,1,1) => t for (t,c) in zip(targs,colangle)]
 end
+
+
 
 println( random_colorscheme())
 istiff(t) = split(t, ".")[end] == "tiff"
@@ -38,7 +41,7 @@ end
     nimages = length(filter(istiff, readdir(MatisseCytometry.IMG_PATH())))
     @test isdir(MatisseCytometry.FIG_PATH())
     # is there a directory for every image
-    @test nimages == length(filter(isdir,readdir(MatisseCytometry.FIG_PATH(); join = true)))
+    @test 2*nimages == length(filter(ispdf,readdir(MatisseCytometry.FIG_PATH())))
     # do all the directories have 2 pdfs?
     @test all(map( x -> length(filter(ispdf,readdir(x))) == 2, filter(isdir, readdir(MatisseCytometry.FIG_PATH(), join = true))))
 end
